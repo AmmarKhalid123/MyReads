@@ -32,7 +32,7 @@ export default function SearchPage(props) {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-                <Books books={books} />
+                <Books books={books} handleShelfChange={props.handleShelfChange} />
               </ol>
             </div>
           </div>
