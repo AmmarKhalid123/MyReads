@@ -6,21 +6,40 @@ import {Link} from 'react-router-dom';
 export default function SearchPage(props) {
     const [books, changeBooks] = useState([]);
     const [query, updateQuery] = useState('');
+    const allBooks = props.booksInShelves;
+    const getShelf = (bookId) => {
+      const reqBook = allBooks.filter(book => book.id === bookId);
+      if (reqBook.length === 0){
+        return 'none';
+      }
+      else {
+        return reqBook[0].shelf;
+      }
+    };
+
     const changeQuery = (text) => {
         updateQuery(text);
     }
     const updateBooks = (bks) => {
-        changeBooks(bks);
+      console.log(JSON.stringify(books));
+      changeBooks(bks);
     }
 
+
     useEffect(() => {
-        BooksAPI.search(query).then((books) => {
-            if (Array.isArray(books) === true){
-                updateBooks(books);
-            }
-        });
-        
-    })
+      BooksAPI.search(query).then((books) => {
+        if (Array.isArray(books) === true){  
+          const newBooks = books.map((book) => {
+          const shelff = getShelf(book.id);
+          book.shelf = shelff;
+          });
+          console.log('agayaaaaa');
+          console.log(books);
+          updateBooks(newBooks);
+        }
+      })
+    });
+
     return(
         <div className="search-books">
             <div className="search-books-bar">
