@@ -11,6 +11,7 @@ export default function Books(props) {
     else{
         return(
             allBooks.filter((book) => (book.shelf !== 'none' && book.shelf === props.shelf)).map((book) => <li key={book.id}>
+                            {console.log('shelf: ',book.shelf, '   book  ',book)}
                             <div className="book">
                               <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
