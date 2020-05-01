@@ -19,28 +19,14 @@ export default function SearchPage(props) {
         return reqBook[0].shelf;
       }
     };
+
     const delayedQuery = useRef(_.debounce(q => updateBooks(q), 500)).current;
+
     const changeQuery = (text) => {
-        updateQuery(text);
-        delayedQuery(text);
-        // if (text === ''){
-        //   updateBooks([]);
-        // }
-        // else{
-        //   BooksAPI.search(query).then((books) =>{
-        //     if (Array.isArray(books) === true){
-        //       // console.log('query was => ', query);
-    
-        //       let newBooks = [];
-        //       books.forEach((book) => {
-        //         newBooks.push(Object.assign(book, {shelf: getShelf(book.id)}));
-        //       }); 
-        //       // console.log('newBooks are => ', books);
-        //       updateBooks(newBooks);
-        //     }
-        //     });
-        // }
+      updateQuery(text);
+      delayedQuery(text);
     }
+
     const updateBooks = (query) => {
       if (query === ''){
         changeBooks([]);
@@ -48,36 +34,18 @@ export default function SearchPage(props) {
       else{
         BooksAPI.search(query).then((books) =>{
           if (Array.isArray(books) === true){
-            // console.log('query was => ', query);
-  
+            // adding the shelf property to each book object
             let newBooks = [];
             books.forEach((book) => {
               newBooks.push(Object.assign(book, {shelf: getShelf(book.id)}));
             }); 
-            // console.log('newBooks are => ', books);
+
             changeBooks(newBooks);
           }
           });
       }
-      // changeBooks(bks);
     }
 
-
-    // useEffect(() => {
-    //   BooksAPI.search(query).then((books) =>{
-    //     if (Array.isArray(books) === true){
-    //       console.log('query was => ', query);
-
-    //       let newBooks = [];
-    //       books.forEach((book) => {
-    //         newBooks.push(Object.assign(book, {shelf: getShelf(book.id)}));
-    //       }); 
-    //       console.log('newBooks are => ', books);
-    //       updateBooks(newBooks);
-    //     }
-    //     });
-    // });
-    let textInput;
     return(
         <div className="search-books">
             <div className="search-books-bar">

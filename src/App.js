@@ -11,8 +11,9 @@ class BooksApp extends React.Component {
     this.state = {
       books: []
     };
-    //TODO: HAD TO PASS AS A PROP MANY 
-    //      TIMES HENCE BIND THIS ONCE AND FOR ALL HERE
+    //TODO: HAD TO PASS changeShelf AS A PROP MANY 
+    //      TIMES HENCE BIND THIS ONCE HERE INSTEAD
+    //      OF BINDING IT EVERYTIME WHILE PASSING
   this.changeShelf = this.changeShelf.bind(this); 
   }
 
@@ -57,8 +58,8 @@ class BooksApp extends React.Component {
             return i;
           }
         });
-        this.state.books[i].shelf = shelfValue;
         const books = this.state.books;
+        books[i].shelf = shelfValue;
         this.setState({books});   
         BooksAPI.update(book, shelfValue);
       }
