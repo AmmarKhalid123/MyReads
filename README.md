@@ -9,7 +9,7 @@ To get started developing right away:
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
-### MyReads: A Book Tracking App
+# MyReads: A Book Tracking App
 
 ## Main Page
 
