@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Books from './BookComponent';
 import * as BooksAPI from '../BooksAPI';
 import {Link} from 'react-router-dom';
+import _ from "lodash";
 
 export default function SearchPage(props) {
     const [books, changeBooks] = useState([]);
@@ -9,6 +10,7 @@ export default function SearchPage(props) {
     const allBooks = props.booksInShelves;
     
     const getShelf = (bookId) => {
+      // getting the shelfValue of a book
       const reqBook = allBooks.filter(book => book.id === bookId);
       if (reqBook.length === 0){
         return 'none';
@@ -17,29 +19,65 @@ export default function SearchPage(props) {
         return reqBook[0].shelf;
       }
     };
-
+    const delayedQuery = useRef(_.debounce(q => updateBooks(q), 500)).current;
     const changeQuery = (text) => {
         updateQuery(text);
+        delayedQuery(text);
+        // if (text === ''){
+        //   updateBooks([]);
+        // }
+        // else{
+        //   BooksAPI.search(query).then((books) =>{
+        //     if (Array.isArray(books) === true){
+        //       // console.log('query was => ', query);
+    
+        //       let newBooks = [];
+        //       books.forEach((book) => {
+        //         newBooks.push(Object.assign(book, {shelf: getShelf(book.id)}));
+        //       }); 
+        //       // console.log('newBooks are => ', books);
+        //       updateBooks(newBooks);
+        //     }
+        //     });
+        // }
     }
-    const updateBooks = (bks) => {
-      // console.log(JSON.stringify(books));
-      changeBooks(bks);
-    }
-
-
-    useEffect(() => {
-      BooksAPI.search(query).then((books) => {
-        if (Array.isArray(books) === true){
-          books.map((book) => {
-          BooksAPI.update(book.id, getShelf(book.id)).then(res => BooksAPI.get(book.id).then(res => updateBooks(books.concat(res))));
-            // const shelff = getShelf(book.id);
-          // book.shelf = shelff;
+    const updateBooks = (query) => {
+      if (query === ''){
+        changeBooks([]);
+      }
+      else{
+        BooksAPI.search(query).then((books) =>{
+          if (Array.isArray(books) === true){
+            // console.log('query was => ', query);
+  
+            let newBooks = [];
+            books.forEach((book) => {
+              newBooks.push(Object.assign(book, {shelf: getShelf(book.id)}));
+            }); 
+            // console.log('newBooks are => ', books);
+            changeBooks(newBooks);
+          }
           });
-          // updateBooks(newBooks);
-        }
-      })
-    });
+      }
+      // changeBooks(bks);
+    }
 
+
+    // useEffect(() => {
+    //   BooksAPI.search(query).then((books) =>{
+    //     if (Array.isArray(books) === true){
+    //       console.log('query was => ', query);
+
+    //       let newBooks = [];
+    //       books.forEach((book) => {
+    //         newBooks.push(Object.assign(book, {shelf: getShelf(book.id)}));
+    //       }); 
+    //       console.log('newBooks are => ', books);
+    //       updateBooks(newBooks);
+    //     }
+    //     });
+    // });
+    let textInput;
     return(
         <div className="search-books">
             <div className="search-books-bar">
@@ -51,7 +89,7 @@ export default function SearchPage(props) {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-                <Books books={books} handleShelfChange={props.handleShelfChange} />
+                <Books books={books} showAll={true} handleShelfChange={props.handleShelfChange} />
               </ol>
             </div>
           </div>
