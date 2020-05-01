@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import Shelf from './ShelfComponent';
 
 export default function MainPage(props){
-    return(
+  const shelves = ['currentlyReading', 'wantToRead', 'read'];  
+  return(
         <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
               <div>
-                <Shelf shelf='currentlyReading' books={props.books} handleShelfChange={props.handleShelfChange} />
-                <Shelf shelf='wantToRead' books={props.books} handleShelfChange={props.handleShelfChange} />
-                <Shelf shelf='read' books={props.books} handleShelfChange={props.handleShelfChange} />
+                {shelves.map((sshelf => 
+                <Shelf shelf={sshelf} books={props.books} handleShelfChange={props.handleShelfChange} />))}
               </div>
             </div>
             <div className="open-search">
