@@ -15,12 +15,12 @@ export default function Books(props) {
                               <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks ? book.imageLinks.thumbnail : ''}")` }}></div>
                                 <div className="book-shelf-changer">
-                                  <select defaultValue={book.shelf}>
+                                  <select defaultValue={book.shelf} onChange={(event) => props.handleShelfChange(book.id, event.target.value)}>
                                     <option value="move" disabled>Move to...</option>
-                                    <option value="currentlyReading"  onClick={(event) => props.handleShelfChange(book.id, event.target.value)}>Currently Reading</option>
-                                    <option value="wantToRead"  onClick={(event) => props.handleShelfChange(book.id, event.target.value)}>Want to Read</option>
-                                    <option value="read"  onClick={(event) => props.handleShelfChange(book.id, event.target.value)}>Read</option>
-                                    <option value="none"  onClick={(event) => props.handleShelfChange(book.id, event.target.value)}>None</option>
+                                    <option value="currentlyReading" >Currently Reading</option>
+                                    <option value="wantToRead" >Want to Read</option>
+                                    <option value="read" >Read</option>
+                                    <option value="none">None</option>
                                   </select>
                                 </div>
                               </div>

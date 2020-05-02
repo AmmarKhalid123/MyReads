@@ -12,7 +12,7 @@ export default function MainPage(props){
             <div className="list-books-content">
               <div>
                 {shelves.map((sshelf => 
-                <Shelf shelf={sshelf} books={props.books} handleShelfChange={props.handleShelfChange} />))}
+                <Shelf shelf={sshelf} key={sshelf} books={props.books} handleShelfChange={props.handleShelfChange} />))}
               </div>
             </div>
             <div className="open-search">

@@ -25,7 +25,7 @@ export default function Shelf(props){
                   <h2 className="bookshelf-title">{shelfTitle}</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
-                      <Books books={props.books} shelf={props.shelf} handleShelfChange={props.handleShelfChange} />
+                      <Books books={props.books} key={props.shelf} shelf={props.shelf} handleShelfChange={props.handleShelfChange} />
                     </ol>
                   </div>
                 </div>
